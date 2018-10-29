@@ -31,7 +31,7 @@ RUN dotnet publish -c Release
 RUN cp -r bin/Release/netcoreapp2.0/publish /opt/neo-cli/node1 \
     && cp -r bin/Release/netcoreapp2.0/publish /opt/neo-cli/node2 \
     && cp -r bin/Release/netcoreapp2.0/publish /opt/neo-cli/node3 \
-    && cp -r bin/Release/netcoreapp2.0/publish /opt/neo-cli/node4 
+    && cp -r bin/Release/netcoreapp2.0/publish /opt/neo-cli/node4
 
 WORKDIR /opt/neo-cli
 
@@ -39,6 +39,7 @@ WORKDIR /opt/neo-cli
 ADD wallets /opt/neo-cli/wallets
 ADD configs /opt/neo-cli/configs
 ADD scripts /opt/neo-cli/scripts
+ADD Plugins /opt/neo-cli/Plugins
 
 RUN mv wallets/1.json node1/1.json \
     && mv wallets/2.json node2/2.json \
@@ -51,7 +52,11 @@ RUN mv wallets/1.json node1/1.json \
     && mv configs/protocol1.json node1/protocol.json \
     && mv configs/protocol2.json node2/protocol.json \
     && mv configs/protocol3.json node3/protocol.json \
-    && mv configs/protocol4.json node4/protocol.json 
+    && mv configs/protocol4.json node4/protocol.json \
+    && cp -r Plugins node1/Plugins \
+    && cp -r Plugins node2/Plugins \
+    && cp -r Plugins node3/Plugins \
+    && cp -r Plugins node4/Plugins
 
 EXPOSE 10001
 EXPOSE 10002

@@ -2,13 +2,14 @@
   "ApplicationConfiguration": {
     "Paths": {
       "Chain": "Chain_{0}",
-      "ApplicationLogs": "ApplicationLogs_{0}"
+      "Index": "Index_{0}"
     },
     "P2P": {
       "Port": 40001,
       "WsPort": 40002
     },
     "RPC": {
+      "BindAddress": "0.0.0.0",
       "Port": 40003,
       "SslCert": "",
       "SslCertPassword": ""
