@@ -28,10 +28,10 @@ WORKDIR /opt/neo-cli-github
 # Build the project
 RUN dotnet restore
 RUN dotnet publish -c Release
-RUN cp -r bin/Release/netcoreapp2.0/publish /opt/neo-cli/node1 \
-    && cp -r bin/Release/netcoreapp2.0/publish /opt/neo-cli/node2 \
-    && cp -r bin/Release/netcoreapp2.0/publish /opt/neo-cli/node3 \
-    && cp -r bin/Release/netcoreapp2.0/publish /opt/neo-cli/node4
+RUN cp -r bin/Release/netcoreapp2.1/publish /opt/neo-cli/node1 \
+    && cp -r bin/Release/netcoreapp2.1/publish /opt/neo-cli/node2 \
+    && cp -r bin/Release/netcoreapp2.1/publish /opt/neo-cli/node3 \
+    && cp -r bin/Release/netcoreapp2.1/publish /opt/neo-cli/node4
 
 WORKDIR /opt/neo-cli
 
