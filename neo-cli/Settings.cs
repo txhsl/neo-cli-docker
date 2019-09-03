@@ -1,8 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Neo.Network.P2P;
-using Neo.SmartContract.Native;
 using System.Net;
-using System.Threading;
 
 namespace Neo
 {
@@ -14,30 +12,12 @@ namespace Neo
         public UnlockWalletSettings UnlockWallet { get; }
         public string PluginURL { get; }
 
-        static Settings _default;
+        public static Settings Default { get; }
 
-        static bool UpdateDefault(IConfiguration configuration)
+        static Settings()
         {
-            var settings = new Settings(configuration.GetSection("ApplicationConfiguration"));
-            return null == Interlocked.CompareExchange(ref _default, settings, null);
-        }
-
-        public static bool Initialize(IConfiguration configuration)
-        {
-            return UpdateDefault(configuration);
-        }
-
-        public static Settings Default
-        {
-            get
-            {
-                if (_default == null)
-                {
-                    UpdateDefault(Helper.LoadConfig("config"));
-                }
-
-                return _default;
-            }
+            IConfigurationSection section = new ConfigurationBuilder().AddJsonFile("config.json").Build().GetSection("ApplicationConfiguration");
+            Default = new Settings(section);
         }
 
         public Settings(IConfigurationSection section)
@@ -53,10 +33,12 @@ namespace Neo
     internal class PathsSettings
     {
         public string Chain { get; }
+        public string Index { get; }
 
         public PathsSettings(IConfigurationSection section)
         {
-            this.Chain = string.Format(section.GetSection("Chain").Value, ProtocolSettings.Default.Magic.ToString("X8"));
+            this.Chain = string.Format(section.GetSection("Chain").Value, Message.Magic.ToString("X8"));
+            this.Index = string.Format(section.GetSection("Index").Value, Message.Magic.ToString("X8"));
         }
     }
 
@@ -84,7 +66,7 @@ namespace Neo
         public ushort Port { get; }
         public string SslCert { get; }
         public string SslCertPassword { get; }
-        public long MaxGasInvoke { get; }
+        public Fixed8 MaxGasInvoke { get; }
 
         public RPCSettings(IConfigurationSection section)
         {
@@ -92,7 +74,7 @@ namespace Neo
             this.Port = ushort.Parse(section.GetSection("Port").Value);
             this.SslCert = section.GetSection("SslCert").Value;
             this.SslCertPassword = section.GetSection("SslCertPassword").Value;
-            this.MaxGasInvoke = (long)BigDecimal.Parse(section.GetValue("MaxGasInvoke", "10"), NativeContract.GAS.Decimals).Value;
+            this.MaxGasInvoke = Fixed8.Parse(section.GetValue("MaxGasInvoke", "0"));
         }
     }
 

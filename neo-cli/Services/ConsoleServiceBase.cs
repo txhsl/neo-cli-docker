@@ -31,7 +31,7 @@ namespace Neo.Services
                 case "exit":
                     return false;
                 case "version":
-                    Console.WriteLine(Assembly.GetEntryAssembly().GetVersion());
+                    Console.WriteLine(Assembly.GetEntryAssembly().GetName().Version);
                     return true;
                 default:
                     Console.WriteLine("error: command not found " + args[0]);
@@ -273,9 +273,11 @@ namespace Neo.Services
             string[] emptyarg = new string[] { "" };
             if (Environment.OSVersion.Platform == PlatformID.Win32NT)
                 Console.Title = ServiceName;
+            Console.OutputEncoding = Encoding.Unicode;
 
             Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine($"{ServiceName} Version: {Assembly.GetEntryAssembly().GetVersion()}");
+            Version ver = Assembly.GetEntryAssembly().GetName().Version;
+            Console.WriteLine($"{ServiceName} Version: {ver}");
             Console.WriteLine();
 
             while (running)
@@ -291,12 +293,11 @@ namespace Neo.Services
                 if (line == null) break;
                 Console.ForegroundColor = ConsoleColor.White;
 
+                string[] args = ParseCommandLine(line);
+                if (args.Length == 0)
+                    args = emptyarg;
                 try
                 {
-                    string[] args = ParseCommandLine(line);
-                    if (args.Length == 0)
-                        args = emptyarg;
-
                     running = OnCommand(args);
                 }
                 catch (Exception ex)
