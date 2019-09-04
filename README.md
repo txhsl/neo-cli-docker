@@ -4,20 +4,21 @@ This project provide a base docker image to build a test image for Neo private b
 
 You can use the neo-gui client in the project to connect to the blockchain in the docker, which is configed already.
 
-## build on source code
+## Build on source code
 
-docker build -f ./docker/Dockerfile -t neo-cli-privnet .
+`docker build -f ./docker/Dockerfile -t neo-cli-privnet .`
 
-docker run --rm -d -it --name neo-cli-docker -p 10001-10003:10001-10003/tcp -p 20001-20003:20001-20003/tcp -p 30001-30003:30001-30003/tcp -p 40001-40003:40001-40003/tcp txhsl/neo-cli-docker
+`docker run --rm -d -it --name neo-cli-docker -p 10001-10003:10001-10003/tcp -p 20001-20003:20001-20003/tcp -p 30001-30003:30001-30003/tcp -p 40001-40003:40001-40003/tcp txhsl/neo-cli-docker`
 
-## use existed image
+## Use existed image
 
 [Here is the repo](https://hub.docker.com/r/txhsl/neo-cli-docker/)
 
-docker pull txhsl/neo-cli-docker
+`docker pull txhsl/neo-cli-docker`
 
-docker run --rm -d -it --name neo-cli-docker -p 10001-10003:10001-10003/tcp -p 20001-20003:20001-20003/tcp -p 30001-30003:30001-30003/tcp -p 40001-40003:40001-40003/tcp txhsl/neo-cli-docker
+`docker run --rm -d -it --name neo-cli-docker -p 10001-10003:10001-10003/tcp -p 20001-20003:20001-20003/tcp -p 30001-30003:30001-30003/tcp -p 40001-40003:40001-40003/tcp txhsl/neo-cli-docker`
 
-## tips
+## Tips
 
-if you run the docker in a virtual machine, remember expose ports 10001, 20001, 30001, 40001 for the rpc connection.
+1. If you run the docker in a virtual machine, remember expose ports 10001, 20001, 30001, 40001 for the rpc connection.
+2. Remeber to release the NEO with 4 wallets, all of which the password is `11111111`.
